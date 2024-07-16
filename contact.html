@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Personal Website</title>
+    <title>Contact - Your Name</title>
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/animations.css">
 </head>
@@ -21,24 +21,13 @@
     </header>
 
     <main>
-        <section id="hero">
-            <h2>Welcome to my digital space</h2>
-            <p>Feel free to chat with my AI assistant below!</p>
-        </section>
-
-        <section id="chat">
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages"></div>
-                <div class="typing-indicator" id="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Type your message...">
-                    <button id="send-button">Send</button>
-                </div>
-            </div>
+        <section id="contact">
+            <h2>Get in Touch</h2>
+            <form id="contact-form">
+                <input type="email" placeholder="Your email" required>
+                <textarea placeholder="Your message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
         </section>
     </main>
 
@@ -47,6 +36,5 @@
     </footer>
 
     <script src="scripts/main.js"></script>
-    <script src="scripts/chat.js"></script>
 </body>
 </html>

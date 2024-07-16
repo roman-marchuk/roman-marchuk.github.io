@@ -1,8 +1,9 @@
 :root {
-    --primary-color: #2c3e50;
-    --secondary-color: #3498db;
-    --background-color: #f4f4f4;
-    --text-color: #333;
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+    --background-color: #1a1a1a;
+    --text-color: #f4f4f4;
+    --card-background: #2c2c2c;
 }
 
 body {
@@ -14,9 +15,13 @@ body {
     padding: 0;
 }
 
+.dark-theme {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
 header {
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
     padding: 1rem;
     position: fixed;
     width: 100%;
@@ -40,7 +45,7 @@ nav ul li {
 }
 
 nav ul li a {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: none;
 }
 
@@ -60,10 +65,19 @@ section {
 }
 
 .chat-container {
-    background-color: #fff;
+    background-color: var(--card-background);
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    max-width: 600px;
+    margin: 0 auto;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
 }
 
 .chat-messages {
@@ -75,7 +89,7 @@ section {
 .chat-input {
     display: flex;
     padding: 20px;
-    background-color: #ecf0f1;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 #user-input {
@@ -83,10 +97,12 @@ section {
     padding: 10px;
     border: none;
     border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: var(--text-color);
 }
 
 #send-button {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -102,7 +118,7 @@ section {
 }
 
 .project-card {
-    background-color: #fff;
+    background-color: var(--card-background);
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -121,10 +137,12 @@ section {
     padding: 0.5rem;
     border: 1px solid #ddd;
     border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
 }
 
 #contact-form button {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: #fff;
     border: none;
     padding: 10px;
@@ -133,8 +151,8 @@ section {
 }
 
 footer {
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--text-color);
     text-align: center;
     padding: 1rem;
     margin-top: 2rem;

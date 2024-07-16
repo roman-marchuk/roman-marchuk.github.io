@@ -52,5 +52,5 @@ userInput.addEventListener('keypress', (e) => {
 
 // Welcome message
 setTimeout(() => {
-    addMessage("Hello! I'm an AI assistant. How can I help you today?", false);
+    addMessage("Hello! I am Roman's AI assistant. How can I help you today?", false);
 }, 1000);
