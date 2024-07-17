@@ -2,9 +2,10 @@ class Graph {
     constructor() {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ antialias: true });
         this.nodes = [];
         this.edges = [];
+        this.controls = null;
     }
 
     init() {
@@ -26,6 +27,14 @@ class Graph {
 
         // Add click event listener
         window.addEventListener('click', this.onMouseClick.bind(this), false);
+
+        // Add OrbitControls for user interaction
+        this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
+        this.controls.enableDamping = true;
+        this.controls.dampingFactor = 0.25;
+        this.controls.screenSpacePanning = false;
+        this.controls.maxDistance = 500;
+        this.controls.minDistance = 1;
     }
 
     createNode(x, y, z, color, name) {
@@ -50,9 +59,7 @@ class Graph {
     animate() {
         requestAnimationFrame(this.animate.bind(this));
 
-        // Rotate the entire graph
-        this.scene.rotation.x += 0.001;
-        this.scene.rotation.y += 0.002;
+        this.controls.update(); // Only update controls
 
         this.renderer.render(this.scene, this.camera);
     }
@@ -74,10 +81,18 @@ class Graph {
     }
 
     handleNodeClick(node) {
+        const chatWindow = document.getElementById('chat-window');
+        const infoPanel = document.getElementById('info-panel');
+
         if (node.name === 'Chat') {
-            document.getElementById('chat-window').classList.remove('hidden');
+            if (chatWindow.classList.contains('hidden')) {
+                chatWindow.classList.remove('hidden');
+                infoPanel.classList.add('hidden');
+            } else {
+                chatWindow.classList.add('hidden');
+            }
         } else {
-            const infoPanel = document.getElementById('info-panel');
+            chatWindow.classList.add('hidden');
             const infoTitle = document.getElementById('info-title');
             const infoContent = document.getElementById('info-content');
 
