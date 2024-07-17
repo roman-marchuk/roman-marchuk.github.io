@@ -3,50 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Name - Personal Website</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/animations.css">
+    <title>3D Graph Website</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
-<body class="dark-theme">
-    <header>
-        <h1>Your Name</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="projects.html">Projects</a></li>
-                <li><a href="contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <main>
-        <section id="hero">
-            <h2>Welcome to my digital space</h2>
-            <p>Feel free to chat with my AI assistant below!</p>
-        </section>
-
-        <section id="chat">
-            <div class="chat-container">
-                <div class="chat-messages" id="chat-messages"></div>
-                <div class="typing-indicator" id="typing-indicator">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="chat-input">
-                    <input type="text" id="user-input" placeholder="Type your message...">
-                    <button id="send-button">Send</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2024 Your Name. All rights reserved.</p>
-    </footer>
-
-    <script src="scripts/main.js"></script>
-    <script src="scripts/chat.js"></script>
+<body>
+    <div id="graph-container"></div>
+    <div id="chat-window" class="hidden">
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Type your message...">
+        <button id="send-button">Send</button>
+    </div>
+    <div id="info-panel" class="hidden">
+        <h2 id="info-title"></h2>
+        <p id="info-content"></p>
+        <button id="close-info">Close</button>
+    </div>
+    <script src="graph.js"></script>
+    <script src="chat.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>
