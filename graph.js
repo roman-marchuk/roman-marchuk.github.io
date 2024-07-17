@@ -10,9 +10,19 @@ class Graph {
 
     init() {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
+        this.renderer.setClearColor(0x1a1a2e); // Set background color
         document.getElementById('graph-container').appendChild(this.renderer.domElement);
 
         this.camera.position.z = 5;
+
+        // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        this.scene.add(ambientLight);
+
+        // Add point light
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        this.scene.add(pointLight);
 
         // Create nodes
         const mainNode = this.createNode(0, 0, 0, 0x00ff00, 'Chat');
@@ -39,7 +49,7 @@ class Graph {
 
     createNode(x, y, z, color, name) {
         const geometry = new THREE.SphereGeometry(0.3, 32, 32);
-        const material = new THREE.MeshBasicMaterial({ color: color });
+        const material = new THREE.MeshPhongMaterial({ color: color });
         const sphere = new THREE.Mesh(geometry, material);
         sphere.position.set(x, y, z);
         sphere.name = name;
