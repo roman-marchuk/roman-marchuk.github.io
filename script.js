@@ -15,24 +15,35 @@ const graphData = {
     ]
   };
   
-  // ... (NodeContent component remains the same)
+  // NodeContent component remains the same
   
   const PersonalWebsite = () => {
     const [selectedNode, setSelectedNode] = React.useState(null);
     const fgRef = React.useRef();
   
     const handleNodeClick = React.useCallback(node => {
+      if (!node || !fgRef.current) return;
+  
       setSelectedNode(node);
       
-      // Aim at node from outside it
-      const distance = 40;
-      const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+      try {
+        const distance = 40;
+        const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
   
-      fgRef.current.cameraPosition(
-        { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
-        node, // lookAt ({ x, y, z })
-        3000  // ms transition duration
-      );
+        const newPosition = node.x !== undefined && node.y !== undefined && node.z !== undefined
+          ? { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }
+          : null;
+  
+        if (newPosition) {
+          fgRef.current.cameraPosition(
+            newPosition,
+            node,
+            3000
+          );
+        }
+      } catch (error) {
+        console.error("Error positioning camera:", error);
+      }
     }, [fgRef]);
   
     return (
@@ -44,20 +55,20 @@ const graphData = {
           nodeColor={node => node.color}
           onNodeClick={handleNodeClick}
           nodeThreeObject={(node) => {
+            const group = new THREE.Group();
+  
             const sphere = new THREE.Mesh(
               new THREE.SphereGeometry(3),
               new THREE.MeshPhongMaterial({ color: node.color })
             );
-            
+            group.add(sphere);
+  
             const label = new SpriteText(node.name);
             label.color = '#ffffff';
             label.textHeight = 2;
             label.position.y = 4;
-            
-            const group = new THREE.Group();
-            group.add(sphere);
             group.add(label);
-            
+  
             return group;
           }}
           linkWidth={2}
@@ -87,4 +98,9 @@ const graphData = {
     );
   };
   
-  ReactDOM.render(<PersonalWebsite />, document.getElementById('root'));
+  ReactDOM.render(
+    <React.StrictMode>
+      <PersonalWebsite />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
