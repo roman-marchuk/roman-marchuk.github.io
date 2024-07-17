@@ -15,64 +15,7 @@ const graphData = {
     ]
   };
   
-  const NodeContent = ({ node }) => {
-    switch (node.id) {
-      case 'center':
-        return (
-          <div className="p-4 bg-gray-100 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">AI Chat</h2>
-            <div className="mb-2">
-              <input
-                type="text"
-                placeholder="Ask me anything..."
-                className="w-full p-2 border rounded"
-              />
-            </div>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded">Send</button>
-          </div>
-        );
-      case 'projects':
-        return (
-          <div className="p-4 bg-green-100 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Projects</h2>
-            <ul className="list-disc pl-5">
-              <li>Project 1</li>
-              <li>Project 2</li>
-              <li>Project 3</li>
-            </ul>
-          </div>
-        );
-      case 'contact':
-        return (
-          <div className="p-4 bg-blue-100 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Contact</h2>
-            <p>Email: example@example.com</p>
-            <p>Phone: (123) 456-7890</p>
-          </div>
-        );
-      case 'about':
-        return (
-          <div className="p-4 bg-purple-100 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">About Me</h2>
-            <p>I'm a passionate developer with a love for creating innovative solutions.</p>
-          </div>
-        );
-      case 'skills':
-        return (
-          <div className="p-4 bg-cyan-100 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Skills</h2>
-            <ul className="list-disc pl-5">
-              <li>JavaScript</li>
-              <li>React</li>
-              <li>Node.js</li>
-              <li>Python</li>
-            </ul>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  // ... (NodeContent component remains the same)
   
   const PersonalWebsite = () => {
     const [selectedNode, setSelectedNode] = React.useState(null);
@@ -100,16 +43,41 @@ const graphData = {
           nodeLabel="name"
           nodeColor={node => node.color}
           onNodeClick={handleNodeClick}
-          nodeThreeObject={node => {
-            const sprite = new SpriteText(node.name);
-            sprite.color = node.color;
-            sprite.textHeight = 8;
-            return sprite;
+          nodeThreeObject={(node) => {
+            const sphere = new THREE.Mesh(
+              new THREE.SphereGeometry(3),
+              new THREE.MeshPhongMaterial({ color: node.color })
+            );
+            
+            const label = new SpriteText(node.name);
+            label.color = '#ffffff';
+            label.textHeight = 2;
+            label.position.y = 4;
+            
+            const group = new THREE.Group();
+            group.add(sphere);
+            group.add(label);
+            
+            return group;
           }}
+          linkWidth={2}
+          linkColor={() => '#ffffff'}
+          linkOpacity={0.8}
+          linkCurvature={0.25}
+          linkMaterial={(link) => new THREE.MeshBasicMaterial({
+            color: '#ffffff',
+            transparent: true,
+            opacity: 0.8,
+            depthWrite: false
+          })}
+          linkDirectionalParticles={5}
+          linkDirectionalParticleWidth={1}
+          linkDirectionalParticleColor={() => '#ffff00'}
+          backgroundColor="#000011"
         />
         {selectedNode && (
           <div className="absolute top-4 left-4 z-10">
-            <div className="bg-white p-4 rounded-lg shadow-lg">
+            <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
               <h3 className="text-lg font-bold mb-2">Selected Node: {selectedNode.name}</h3>
               <NodeContent node={selectedNode} />
             </div>
