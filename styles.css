@@ -25,6 +25,7 @@ body, html {
     color: #e94560;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(233, 69, 96, 0.2);
+    transition: all 0.3s ease;
 }
 
 #chat-window {
@@ -52,8 +53,7 @@ body, html {
     color: #e94560;
 }
 
-#send-button {
-    width: 60px;
+#send-button, #close-info {
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -63,7 +63,7 @@ body, html {
     transition: background-color 0.3s;
 }
 
-#send-button:hover {
+#send-button:hover, #close-info:hover {
     background-color: #ff6b6b;
 }
 
@@ -76,20 +76,8 @@ body, html {
     color: #ff6b6b;
 }
 
-#close-info {
-    background-color: #e94560;
-    color: #1a1a2e;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#close-info:hover {
-    background-color: #ff6b6b;
-}
-
 .hidden {
     display: none;
+    opacity: 0;
+    pointer-events: none;
 }

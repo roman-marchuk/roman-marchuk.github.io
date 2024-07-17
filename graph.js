@@ -26,14 +26,14 @@ class Graph {
         this.createEdge(mainNode, projectsNode);
 
         // Add click event listener
-        window.addEventListener('click', this.onMouseClick.bind(this), false);
+        this.renderer.domElement.addEventListener('click', this.onMouseClick.bind(this), false);
 
-        // Add OrbitControls for user interaction
+        // Add OrbitControls
         this.controls = new THREE.OrbitControls(this.camera, this.renderer.domElement);
         this.controls.enableDamping = true;
         this.controls.dampingFactor = 0.25;
         this.controls.screenSpacePanning = false;
-        this.controls.maxDistance = 500;
+        this.controls.maxDistance = 100;
         this.controls.minDistance = 1;
     }
 
@@ -58,13 +58,12 @@ class Graph {
 
     animate() {
         requestAnimationFrame(this.animate.bind(this));
-
-        this.controls.update(); // Only update controls
-
+        this.controls.update();
         this.renderer.render(this.scene, this.camera);
     }
 
     onMouseClick(event) {
+        event.preventDefault();
         const mouse = new THREE.Vector2();
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -85,12 +84,8 @@ class Graph {
         const infoPanel = document.getElementById('info-panel');
 
         if (node.name === 'Chat') {
-            if (chatWindow.classList.contains('hidden')) {
-                chatWindow.classList.remove('hidden');
-                infoPanel.classList.add('hidden');
-            } else {
-                chatWindow.classList.add('hidden');
-            }
+            chatWindow.classList.toggle('hidden');
+            infoPanel.classList.add('hidden');
         } else {
             chatWindow.classList.add('hidden');
             const infoTitle = document.getElementById('info-title');
