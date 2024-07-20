@@ -150,12 +150,12 @@ const PersonalWebsite = () => {
         <div className="absolute inset-0 flex items-center justify-center z-10">
           {selectedNode.id === 'center' && <ChatInterface />}
           {selectedNode.id === 'contact' && <ContactForm />}
-          {(selectedNode.id === 'projects' || selectedNode.id === 'about') && (
+          {/* {(selectedNode.id === 'projects' || selectedNode.id === 'about') && (
             <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
               <h3 className="text-lg font-bold mb-2">Exploring: {selectedNode.name}</h3>
               <p>Press Escape to return to main view.</p>
             </div>
-          )}
+          )} */}
         </div>
       )}
     </div>
