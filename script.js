@@ -59,21 +59,40 @@ const mainGraphData = {
         // Zoom into subgraph
         setZoomLevel(1);
         setGraphData(subGraphs[node.id]);
-      } else if (zoomLevel === 1) {
+  
+        const distance = 40;
+        const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+  
+        fgRef.current.cameraPosition(
+          { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
+          node,
+          2000
+        );
+      }
+    }, [zoomLevel]);
+  
+    const handleEscape = React.useCallback((event) => {
+      if (event.key === 'Escape' && zoomLevel === 1) {
         // Zoom out to main graph
         setZoomLevel(0);
         setGraphData(mainGraphData);
+        setSelectedNode(null);
+  
+        // Reset camera position
+        fgRef.current.cameraPosition(
+          { x: 0, y: 0, z: 200 },
+          { x: 0, y: 0, z: 0 },
+          2000
+        );
       }
-  
-      const distance = 40;
-      const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
-  
-      fgRef.current.cameraPosition(
-        { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio },
-        node,
-        2000
-      );
     }, [zoomLevel]);
+  
+    React.useEffect(() => {
+      window.addEventListener('keydown', handleEscape);
+      return () => {
+        window.removeEventListener('keydown', handleEscape);
+      };
+    }, [handleEscape]);
   
     return (
       <div className="h-screen w-full relative">
@@ -119,7 +138,7 @@ const mainGraphData = {
           <div className="absolute top-4 left-4 z-10">
             <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
               <h3 className="text-lg font-bold mb-2">Selected Node: {selectedNode.name}</h3>
-              <p>{zoomLevel === 0 ? "Click to zoom in" : "Click any node to zoom out"}</p>
+              <p>{zoomLevel === 0 ? "Click to zoom in" : "Press Escape to zoom out"}</p>
             </div>
           </div>
         )}
