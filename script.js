@@ -1,4 +1,4 @@
-// Main graph data
+// Graph data
 const mainGraphData = {
   nodes: [
     { id: 'center', name: 'AI Chat', color: '#ff9900' },
@@ -15,7 +15,6 @@ const mainGraphData = {
   ]
 };
 
-// Subgraph data for 'projects' and 'about'
 const subGraphs = {
   projects: {
     nodes: [
@@ -44,16 +43,53 @@ const subGraphs = {
 };
 
 // Chat Interface Component
-const ChatInterface = () => (
-  <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-96">
-    <h3 className="text-lg font-bold mb-2">AI Chat</h3>
-    <div className="h-64 bg-gray-100 mb-2 p-2 overflow-y-auto rounded">
-      {/* Chat messages would go here */}
+const ChatInterface = () => {
+  const [messages, setMessages] = React.useState([]);
+  const [inputMessage, setInputMessage] = React.useState('');
+
+  const handleSendMessage = () => {
+    if (inputMessage.trim() === '') return;
+
+    const newMessage = { role: 'user', content: inputMessage };
+    setMessages(prevMessages => [...prevMessages, newMessage]);
+    setInputMessage('');
+
+    // Here you would typically send the message to an AI API
+    // For now, we'll just simulate a response
+    setTimeout(() => {
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { role: 'assistant', content: 'This is a simulated response. AI integration is not implemented in this demo.' }
+      ]);
+    }, 1000);
+  };
+
+  return (
+    <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-96 max-h-[80vh] flex flex-col">
+      <h3 className="text-lg font-bold mb-2">AI Chat</h3>
+      <div className="flex-grow overflow-y-auto mb-2 p-2 bg-gray-100 rounded">
+        {messages.map((msg, index) => (
+          <div key={index} className={`mb-2 ${msg.role === 'user' ? 'text-right' : 'text-left'}`}>
+            <span className={`inline-block p-2 rounded ${msg.role === 'user' ? 'bg-blue-200' : 'bg-green-200'}`}>
+              {msg.content}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="flex">
+        <input
+          type="text"
+          value={inputMessage}
+          onChange={(e) => setInputMessage(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
+          placeholder="Type your message..."
+          className="flex-grow p-2 border rounded-l"
+        />
+        <button onClick={handleSendMessage} className="bg-blue-500 text-white p-2 rounded-r">Send</button>
+      </div>
     </div>
-    <input type="text" placeholder="Type your message..." className="w-full p-2 mb-2 border rounded" />
-    <button className="w-full bg-blue-500 text-white p-2 rounded">Send</button>
-  </div>
-);
+  );
+};
 
 // Contact Form Component
 const ContactForm = () => (
@@ -66,6 +102,7 @@ const ContactForm = () => (
   </div>
 );
 
+// Main Component
 const PersonalWebsite = () => {
   const [graphData, setGraphData] = React.useState(mainGraphData);
   const [selectedNode, setSelectedNode] = React.useState(null);
@@ -150,12 +187,12 @@ const PersonalWebsite = () => {
         <div className="absolute inset-0 flex items-center justify-center z-10">
           {selectedNode.id === 'center' && <ChatInterface />}
           {selectedNode.id === 'contact' && <ContactForm />}
-          {/* {(selectedNode.id === 'projects' || selectedNode.id === 'about') && (
+          {(selectedNode.id === 'projects' || selectedNode.id === 'about') && (
             <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
               <h3 className="text-lg font-bold mb-2">Exploring: {selectedNode.name}</h3>
               <p>Press Escape to return to main view.</p>
             </div>
-          )} */}
+          )}
         </div>
       )}
     </div>
