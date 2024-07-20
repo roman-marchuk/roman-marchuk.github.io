@@ -45,9 +45,9 @@ const subGraphs = {
 
 // Chat Interface Component
 const ChatInterface = () => (
-  <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-64">
+  <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-96">
     <h3 className="text-lg font-bold mb-2">AI Chat</h3>
-    <div className="h-40 bg-gray-100 mb-2 p-2 overflow-y-auto rounded">
+    <div className="h-64 bg-gray-100 mb-2 p-2 overflow-y-auto rounded">
       {/* Chat messages would go here */}
     </div>
     <input type="text" placeholder="Type your message..." className="w-full p-2 mb-2 border rounded" />
@@ -57,11 +57,11 @@ const ChatInterface = () => (
 
 // Contact Form Component
 const ContactForm = () => (
-  <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-64">
+  <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg w-96">
     <h3 className="text-lg font-bold mb-2">Contact Me</h3>
     <input type="text" placeholder="Name" className="w-full p-2 mb-2 border rounded" />
     <input type="email" placeholder="Email" className="w-full p-2 mb-2 border rounded" />
-    <textarea placeholder="Message" className="w-full p-2 mb-2 border rounded h-24"></textarea>
+    <textarea placeholder="Message" className="w-full p-2 mb-2 border rounded h-32"></textarea>
     <button className="w-full bg-blue-500 text-white p-2 rounded">Send</button>
   </div>
 );
@@ -95,7 +95,7 @@ const PersonalWebsite = () => {
   }, [zoomLevel]);
 
   const handleEscape = React.useCallback((event) => {
-    if (event.key === 'Escape' && zoomLevel === 1) {
+    if (event.key === 'Escape' && (zoomLevel === 1 || selectedNode)) {
       setZoomLevel(0);
       setGraphData(mainGraphData);
       setSelectedNode(null);
@@ -106,7 +106,7 @@ const PersonalWebsite = () => {
         2000
       );
     }
-  }, [zoomLevel]);
+  }, [zoomLevel, selectedNode]);
 
   React.useEffect(() => {
     window.addEventListener('keydown', handleEscape);
@@ -147,13 +147,13 @@ const PersonalWebsite = () => {
         backgroundColor="#000011"
       />
       {selectedNode && (
-        <div className="absolute top-4 left-4 z-10">
+        <div className="absolute inset-0 flex items-center justify-center z-10">
           {selectedNode.id === 'center' && <ChatInterface />}
           {selectedNode.id === 'contact' && <ContactForm />}
           {(selectedNode.id === 'projects' || selectedNode.id === 'about') && (
             <div className="bg-white bg-opacity-80 p-4 rounded-lg shadow-lg">
-              <h3 className="text-lg font-bold mb-2">Selected Node: {selectedNode.name}</h3>
-              <p>Exploring subgraph. Press Escape to zoom out.</p>
+              <h3 className="text-lg font-bold mb-2">Exploring: {selectedNode.name}</h3>
+              <p>Press Escape to return to main view.</p>
             </div>
           )}
         </div>
